@@ -10,25 +10,30 @@
  * };
  */
 class Solution {
-    int sum;
 public:
-    void getCount(TreeNode* root, int L, int R) {
-        if (root != nullptr) {
-            if (root->val >= L && root->val <= R) {
-                sum += root->val;
-            }
-            if (root->left != nullptr && root->val >= L) {
-                getCount(root->left, L, R);
-            }
-            if (root->right != nullptr && root->val <= R) {
-                getCount(root->right, L, R);
-            }
-        }
-    }
     int rangeSumBST(TreeNode* root, int L, int R) {
-        sum = 0;
+        int sum = 0;
+        vector<TreeNode *> temp;
         
-        getCount(root, L, R);
+        temp.push_back(root);
+        
+        while (temp.size() > 0) {
+            TreeNode *node = temp.back();
+            
+            temp.pop_back();            
+            
+            if (node != nullptr) { 
+                if (node->val >= L && node->val <= R) {
+                    sum += node->val;
+                }
+                if (node->left != nullptr && node->val >= L) {
+                    temp.push_back(node->left);
+                }
+                if (node->right != nullptr && node->val <= R) {
+                    temp.push_back(node->right);
+                }
+            }            
+        }
         
         return sum;
     }
