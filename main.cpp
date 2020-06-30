@@ -10,21 +10,26 @@
  * };
  */
 class Solution {
+    int sum;
 public:
-    void getCount(TreeNode* root, int L, int R, int &count) {
+    void getCount(TreeNode* root, int L, int R) {
         if (root != nullptr) {
             if (root->val >= L && root->val <= R) {
-                count += root->val;
+                sum += root->val;
             }
-            getCount(root->left, L, R, count);
-            getCount(root->right, L, R, count);
+            if (root->left != nullptr && root->val >= L) {
+                getCount(root->left, L, R);
+            }
+            if (root->right != nullptr && root->val <= R) {
+                getCount(root->right, L, R);
+            }
         }
     }
     int rangeSumBST(TreeNode* root, int L, int R) {
-        int count = 0;
+        sum = 0;
         
-        getCount(root, L, R, count);
+        getCount(root, L, R);
         
-        return count;
+        return sum;
     }
 };
