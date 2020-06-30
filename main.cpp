@@ -13,24 +13,26 @@ class Solution {
 public:
     int rangeSumBST(TreeNode* root, int L, int R) {
         int sum = 0;
-        vector<TreeNode *> temp;
+        TreeNode *temp[20001] = {0};
+        int currentCounter = 0;
+        int totalCount = 1;
         
-        temp.push_back(root);
+        temp[0] = root;
         
-        while (temp.size() > 0) {
-            TreeNode *node = temp.back();
+        while (currentCounter < totalCount) {
+            TreeNode *node = temp[currentCounter];
             
-            temp.pop_back();            
+            currentCounter++;
             
             if (node != nullptr) { 
                 if (node->val >= L && node->val <= R) {
                     sum += node->val;
                 }
                 if (node->left != nullptr && node->val >= L) {
-                    temp.push_back(node->left);
+                    temp[totalCount++] = node->left;
                 }
                 if (node->right != nullptr && node->val <= R) {
-                    temp.push_back(node->right);
+                    temp[totalCount++] = node->right;
                 }
             }            
         }
